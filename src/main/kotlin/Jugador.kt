@@ -1,8 +1,6 @@
-class Jugador(){
-    var nom: String ? = "LOLALOLITA"
-    var color: String ? = "MAPI"
-    var posicio: Int = 0
+class Jugador(var nom: String?,var color: String?,var posicio: Int,var nortirar: Boolean, var turno: Boolean, var ronda: Int ){
 
 
 }
+
 

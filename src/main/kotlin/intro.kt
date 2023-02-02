@@ -1,6 +1,5 @@
 fun intro (){
-    while (true) {
-        //Seleccio de jugadors
+
         println("\n" +
                 " ██▓    ▄▄▄          ▒█████   ▄████▄   ▄▄▄      \n" +
                 "▓██▒   ▒████▄       ▒██▒  ██▒▒██▀ ▀█  ▒████▄    \n" +
@@ -26,47 +25,7 @@ fun intro (){
 
 
 
-        val nom1 = ("Nom del Jugador 1: ")
-        for (i in nom1) {
-            print("$i")
-            Thread.sleep(100)
-        }
-        Jugador1.nom = readLine() ?: "LOLALOLITA"
-        val color1 = ("Color del jugador 1: ")
-        for (i in color1) {
-            print("$i")
-            Thread.sleep(100)
-        }
-        val llegend1 = ("LLEGENDA DE COLORS: 1-vermell,2-verd: ")
-        for (i in llegend1) {
-            print("$i")
-            Thread.sleep(100)
-        }
 
-        val color = readln().toIntOrNull()
-        if (color == 1) {
-            Jugador1.color = ("vermell")
-        } else if (color == 2){
-            Jugador1.color = ("verd")
-        }
-
-
-        val nom2 = ("Nom de Jugador 2: ")
-        for (i in nom2) {
-            print("$i")
-            Thread.sleep(100)
-        }
-        Jugador2.nom = readLine() ?: "LOLALOLITA"
-        val color2 = ("Color del jugador 2: ")
-        for (i in color2) {
-            print("$i")
-            Thread.sleep(100)
-        }
-        if (color == 1) {
-            Jugador2.color = ("verd")
-        } else if (color == 2) {
-            Jugador2.color = ("vermell")}
-        println(Jugador2.color)
 
 
 
@@ -99,7 +58,20 @@ fun intro (){
                 "\n" +
                 "Muerte [58] Se vuelve a empezar desde la casilla 1."
         println(intro)
-        break
+
     }
 
+
+fun retornarNombreval():String{
+    println("Escriba el nombre del jugador: ")
+var nom = readLine() ?: "LOLALOLITA"
+    return nom
+
 }
+fun retornarColorJugador():String{
+    println("Escriba el color del jugador: ")
+    var color = readLine() ?: "negro"
+    return color
+}
+
+

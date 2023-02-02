@@ -4,77 +4,121 @@ class OcaGame(val jugadors: List<Jugador>) {
     val caselles = Taulell().casillas
 
 
+    //La funcio tirarDau fa un readln perque el joc sigui de manera menys dinamica
+    // que per cada torn hagis de donarli a l'intro ja que sino el joc jugaria sol, despres també fa el random del 1 al 6 que simula un dau
     fun tirarDau(): Int {
         /*enter per jugar*/
         readln()
         return (1..6).random()
     }
 
-
-    fun moure(player: Jugador, moviment: Int) {
+    //La funcio moure ens demana
+    fun moure(player: Jugador, moviment: Int, ronda: Int, rondaPartida: Int) {
         player.posicio += moviment
+        if (player.nortirar==false) {
+            println("${player.nom} et mous fins la posicio ${player.posicio}")
+        }
+
         if (player.posicio >= 63) {
             player.posicio = 63
             println("Has guanyat!!!")
             return
         }
 
+
         val casella = caselles[player.posicio]
-        val posis: ArrayList<Int> = arrayListOf()
 
-        fun comprobaPosicio(){
-            for (i in Taulell().casillas){
-               posis.add(Casella().mouPosicions)
-            }
-
-        }
-        fun esOca(){
-            for (i in posis){
-                if (i > 0){
-                    println("De oca a oca i tiro porque me toca")
-                }
-            }
-        }
-        esOca()
-        comprobaPosicio()
-
-        if (casella.mouPosicions != 0) {
+        //Ocas
+        if (casella.mouPosicions == 4) {
             player.posicio += casella.mouPosicions
+            println("De oca a oca i tiro porque me toca")
             val dau = tirarDau()
-            moure(player, dau)
+            println("${player.nom} ha tret un: $dau")
+            //moure(player, dau)
 
+        }
 
-        } else if (casella.tornaTirar == true) {
-            val dau_tornar_tirar = tirarDau()
-            moure(player, dau_tornar_tirar)
+        //Dau bo
+        else if (casella.mouPosicions == 25) {
+            player.posicio += casella.mouPosicions
+            println("${player.nom} et mous fins la posicio ${player.posicio}")
+            println("De dado a dado y tiras porque te ha dado")
+            val dau = tirarDau()
+            // moure(player, dau)
+            println("${player.nom} ha tret un: $dau")
+        }
+        //Dau dolent
+        else if (casella.mouPosicions == -25) {
+            player.posicio += casella.mouPosicions
+            println("De dado a dado y no tiras porque te ha dado")
+            println("${player.nom} et mous fins la posicio ${player.posicio}")
 
-        } else if (casella.perdsPartides != 0) {
-            player.posicio -= casella.perdsPartides
+        }
+        //Calavera
+        else if (casella.mouPosicions == -57) {
+            player.posicio += casella.mouPosicions
+            println("Has muerto ahora tienes que volver a empezar")
+            println("${player.nom} et mous fins la posicio ${player.posicio}")
         }
 
 
-        println("${player.nom} et mous fins la posicio ${player.posicio}")
-        println(player.posicio)
+        //Carcel
+        else if (casella.perdsPartides == 3) {
+            println("Has sido arrestado ahora te tienes que quedar 3 turnos aqui")
+            player.nortirar = true
+            if (ronda == rondaPartida - 2) {
+                player.nortirar = false
+            }
+
+
+        }
+        //Posada
+        else if (casella.perdsPartides == 2) {
+            println("Te has emborachado te quedas en la posada por 2 turnos")
+            player.nortirar = true
+            if (ronda == rondaPartida - 1) {
+                player.nortirar = false
+            }
+
+
+
+        }
 
 
     }
 
     fun play() {
         var isWinner = false
+        var rondaPartida = 1
+
+
 
 
         while (!isWinner) {
-            for (jugador in jugadors) {
-                val roll = tirarDau()
-                println("${jugador.nom} ha tret un: $roll")
-                moure(jugador, roll)
-                if (jugador.posicio == 63) {
+            for (i in 0..jugadors.size - 1) {
+                jugadors[i].turno = true
+                if (!jugadors[i].nortirar) {
+                    val roll = tirarDau()
+                    println("${jugadors[i].nom} ha tret un: $roll")
+                    moure(jugadors[i], roll, jugadors[i].ronda, rondaPartida)
+                    jugadors[i].ronda = rondaPartida
+
+                } else {
+                    println("${jugadors[i].nom} se li salta el torn")
+                    moure(jugadors[i], 0, jugadors[i].ronda, rondaPartida)
+
+                }
+
+                if (jugadors[i].posicio == 63) {
                     isWinner = true
                 }
+                jugadors[i].turno = false
             }
+            rondaPartida++
         }
 
         // El joc ha acbat
     }
 }
+
 

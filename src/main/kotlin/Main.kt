@@ -1,10 +1,11 @@
-//Atribueix el nombre de jugadors
-var Jugador1 = Jugador()
-var Jugador2 = Jugador()
-
 fun main() {
     intro()
-    val joc = OcaGame(listOf(Jugador1,Jugador2))
+    //Atribueix el nombre de jugadors
+    val jugador1 = Jugador(retornarNombreval(), retornarColorJugador(),0,false,true, 1)
+    val jugador2 = Jugador(retornarNombreval(), retornarColorJugador(),55,true,false, 1)
+
+
+    val joc = OcaGame(listOf(jugador1,jugador2))
     joc.play()
 
 
